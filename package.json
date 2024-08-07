@@ -1,9 +1,11 @@
 {
   "name": "crypto-monitoring-backend",
   "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
+  "main": "src/app.ts",
+  "type": "commonjs",
   "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,9 +21,11 @@
     "axios": "^1.7.3",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "ioredis": "^5.4.1",
     "mongoose": "^8.5.2",
     "redis": "^4.7.0",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.4"
   }
 }

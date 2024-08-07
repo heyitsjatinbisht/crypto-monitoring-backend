@@ -1,16 +1,19 @@
-import redis from "redis";
+import { createClient } from "redis";
 import { config } from "./config";
-import { promisify } from "util";
 
-const redisClient = redis.createClient({
-  url: config.redisURL,
+const redisClient = createClient({
+  password: config.password,
+  socket: {
+    host: config.redisHost,
+    port: Number(config.redisPort),
+  },
 });
 
-redisClient.on("error", (err) => {
-  console.error("Redis error:", err);
-});
+redisClient.on("error", (err) => console.error("Redis Client Error", err));
 
-const getAsync = promisify(redisClient.get).bind(redisClient);
-const setAsync = promisify(redisClient.set).bind(redisClient);
+(async () => {
+  await redisClient.connect();
+  console.log("Redis client connected");
+})();
 
-export { redisClient, getAsync, setAsync };
+export default redisClient;
