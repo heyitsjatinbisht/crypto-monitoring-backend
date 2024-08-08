@@ -1,17 +1,15 @@
-import { Schema, model, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-interface IAlert extends Document {
-  userId: string;
+interface AlertDocument extends Document {
   symbol: string;
   threshold: number;
-  direction: "above" | "below"; // Adding the type for direction
+  direction: string;
 }
 
-const AlertSchema = new Schema<IAlert>({
-  userId: { type: String, required: true },
+const alertSchema = new Schema<AlertDocument>({
   symbol: { type: String, required: true },
   threshold: { type: Number, required: true },
-  direction: { type: String, required: true, enum: ["above", "below"] }, // Enum for direction
+  direction: { type: String, required: true },
 });
 
-export const Alert = model<IAlert>("Alert", AlertSchema);
+export const Alert = mongoose.model<AlertDocument>("Alert", alertSchema);

@@ -30,3 +30,18 @@ export const getCachedPriceController = asyncHandler(
     res.status(200).json(new ApiResponse(200, cachedPrice));
   }
 );
+
+export const getSymbols = asyncHandler(async (req: Request, res: Response) => {
+  try {
+    // Example symbols, replace with actual data source
+    const symbols = [
+      { symbol: "bitcoin", name: "Bitcoin" },
+      { symbol: "ethereum", name: "Ethereum" },
+    ];
+    res.status(200).json(new ApiResponse(200, symbols));
+  } catch (error) {
+    res
+      .status(500)
+      .json(new ApiResponse(500, null, "Error retrieving symbols"));
+  }
+});

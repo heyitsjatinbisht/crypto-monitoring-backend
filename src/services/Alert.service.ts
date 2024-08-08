@@ -3,17 +3,14 @@ import { fetchCryptoPrices } from "./price.service";
 
 // Function to set a new alert
 export const setAlert = async (
-  userId: string,
   symbol: string,
   threshold: number,
   direction: string
 ) => {
   try {
-    const alert = new Alert({ userId, symbol, threshold, direction });
+    const alert = new Alert({ symbol, threshold, direction });
     await alert.save();
-    console.log(
-      `Alert set for user ${userId}: ${symbol} ${direction} ${threshold}`
-    );
+    console.log(`Alert set: ${symbol} ${direction} ${threshold}`);
   } catch (error) {
     console.error("Error setting alert:", error);
   }
@@ -32,19 +29,19 @@ export const checkAlerts = async () => {
 
         if (alert.direction === "above" && currentPrice > alert.threshold) {
           console.log(
-            `Alert for user ${alert.userId}: ${alert.symbol} price is above ${alert.threshold}`
+            `Alert: ${alert.symbol} price is above ${alert.threshold}`
           );
           // Example: Send notification
-          // sendNotification(alert.userId, alert.symbol, currentPrice, alert.threshold);
+          // sendNotification(alert.symbol, currentPrice, alert.threshold);
         } else if (
           alert.direction === "below" &&
           currentPrice < alert.threshold
         ) {
           console.log(
-            `Alert for user ${alert.userId}: ${alert.symbol} price is below ${alert.threshold}`
+            `Alert: ${alert.symbol} price is below ${alert.threshold}`
           );
           // Example: Send notification
-          // sendNotification(alert.userId, alert.symbol, currentPrice, alert.threshold);
+          // sendNotification(alert.symbol, currentPrice, alert.threshold);
         }
       }
     }

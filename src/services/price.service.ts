@@ -14,12 +14,25 @@ export const fetchCryptoPrices = async (): Promise<PriceData[]> => {
   try {
     const { data } = await axios.get(config.coingeckoAPI);
 
+    // Check if data has the expected format
+    if (!data.bitcoin?.usd || !data.ethereum?.usd) {
+      throw new Error("Unexpected API response format");
+    }
+
     return [
       { symbol: "bitcoin", price: data.bitcoin.usd },
       { symbol: "ethereum", price: data.ethereum.usd },
     ];
   } catch (error) {
-    console.error("Error fetching cryptocurrency prices:", error);
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 429) {
+        console.error("Rate limit exceeded. Please try again later.");
+      } else {
+        console.error("Error fetching cryptocurrency prices:", error.message);
+      }
+    } else {
+      console.error("Unexpected error:", error);
+    }
     return [];
   }
 };
